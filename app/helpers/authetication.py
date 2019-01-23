@@ -11,7 +11,7 @@ def encode_token(user_id, isAdmin=False):
     payload = {
         "uid": user_id,
         "adm": isAdmin,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=3)
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
     return token
