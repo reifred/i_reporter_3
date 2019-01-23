@@ -53,12 +53,12 @@ def sign_up():
         guest = User(**user)
         User.register_user(**guest.convert_to_dict())
         user_id = User.user_exists(username)[0]["id"]
-        token = encode_token(user_id)
         response = jsonify({
             "status": 201,
             "data": [{
-                "token": token,
-                "user": User.get_users()[-1]
+                "id": user_id,
+                "username": guest.username,
+                "message": "User registered"
             }]
         }), 201
     return response
@@ -78,13 +78,13 @@ def sign_in():
     if username == "admin" and password == "admin@33" and isAdmin:
         token = encode_token(1, isAdmin)
         response = jsonify({
-            "status": 201,
+            "status": 200,
             "data": [{
                 "token": token,
                 "message": "Admin login",
                 "username": "admin"
             }]
-        }), 201
+        }), 200
     elif errors:
         response = jsonify({"status": 400, "error": errors}), 400
     else:
@@ -103,11 +103,13 @@ def sign_in():
             user_id = username_exists[0]["id"]
             token = encode_token(user_id)
             response = jsonify({
-                "status": 201,
+                "status": 200,
                 "data": [{
-                    "token": token,
-                    "user": username_exists[-1]
+                    "id": user_id,
+                    "message": "User login",
+                    "username": username,
+                    "token": token
                 }]
-            }), 201
+            }), 200
 
     return response
