@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-from app.helpers.database import Database
 from app.helpers.authetication import token_required, admin_required
 from app.models.user import User
 
