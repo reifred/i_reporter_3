@@ -1,10 +1,10 @@
 from functools import wraps
 from flask import request, jsonify
+from os import environ
 import jwt
 import datetime
 
-SECRET_KEY = "qwertyui"
-
+SECRET_KEY = environ.get("SECRET_KEY")
 
 def encode_token(user_id, isAdmin=False):
     """ Write this later """
