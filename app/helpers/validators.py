@@ -1,4 +1,29 @@
 import re
+from flask import jsonify
+
+
+def valid_url_input(incident_type):
+    """ Validate urls """
+    if incident_type not in ["red_flags", "interventions"]:
+        return False
+    _type = incident_type
+    return True
+
+
+def valid_patch_url(incident_type, incident_attr):
+    """ Validate patch urls """
+    if incident_attr not in ["location", "comment"]:
+        return False
+    return valid_url_input(incident_type)
+
+
+def set_incident_type(incident_type):
+    """ Set _type according to url input """
+    if incident_type == "red_flags":
+        _type = "red-flag"
+    elif incident_type == "interventions":
+        _type = "intervention"
+    return _type
 
 
 def validate_string(string_key, string_value):
@@ -14,15 +39,6 @@ def validate_media(media_key, media_value):
         return f"{media_key} should be in list form"
 
 
-def validate_type(_type):
-    """ Validate incident type """
-    if not _type or not isinstance(
-            _type, str) or _type.isspace():
-        return "_type must not be empty string"
-    if _type not in ["red-flag", "intervention"]:
-        return "given _type not allowed"
-
-
 def validate_comment(comment):
     """ Validate incident comment """
     if not comment or not isinstance(
@@ -32,12 +48,11 @@ def validate_comment(comment):
         return "comment must be atleast 10 to 40 characters"
 
 
-def validate_input(location, comment, _type, images, videos):
+def validate_input(location, comment, images, videos):
     """ Validate incident input """
     error = {}
     error["location"] = validate_string("location", location)
     error["comment"] = validate_comment(comment)
-    error["_type"] = validate_type(_type)
     error["images"] = validate_media("images", images)
     error["videos"] = validate_media("videos", videos)
     error_list = [value for key, value in error.items() if value]
