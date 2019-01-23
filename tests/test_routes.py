@@ -1,6 +1,8 @@
 from app import app
 from tests.getToken import GetToken
 from app.helpers.database import Database
+from tests.data_test import (
+    red_flag_valid, red_flag_wrong_media)
 import unittest
 import json
 
@@ -13,11 +15,10 @@ class TestApp(unittest.TestCase):
 
     def setUp(self):
         self.client = app.test_client(self)
-        self.red_flag = {
-            "comment": "We are facing this challenge",
-            "_type": "red-flag",
-            "location": "Lat 1231 Long 1424",
-        }
+        # self.red_flag = {
+        #     "comment": "We are facing this challenge",
+        #     "location": "Lat 1231 Long 1424"
+        # }
 
     @classmethod
     def tearDownClass(cls):
@@ -36,7 +37,7 @@ class TestApp(unittest.TestCase):
 
     def test_02_create_red_flag_without_token(self):
         response = self.client.post(
-            "/api/v1/red_flags", json=self.red_flag)
+            "/api/v1/red_flags", json=red_flag_valid)
         json_data = json.loads(response.data)
         self.assertEqual(401, response.status_code)
         self.assertEqual(json_data["error"], "Invalid token")
@@ -45,7 +46,7 @@ class TestApp(unittest.TestCase):
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
         json_data = json.loads(response.data)
         self.assertEqual(201, response.status_code)
         self.assertEqual(
@@ -55,7 +56,7 @@ class TestApp(unittest.TestCase):
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
         json_data = json.loads(response.data)
         print(json_data)
         self.assertEqual(400, response.status_code)
@@ -67,7 +68,7 @@ class TestApp(unittest.TestCase):
             "/api/v1/red_flags",
             headers=dict(
                 Authorization='Bearer ' + GetToken.get_admin_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
         json_data = json.loads(response.data)
         self.assertEqual(403, response.status_code)
         self.assertEqual(
@@ -103,7 +104,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/red_flags",
             headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
         self.assertEqual(200, response.status_code)
 
     def test_10_get_user_single_red_flags_without_token(self):
@@ -116,7 +117,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/red_flags/1",
             headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
         json_data = json.loads(response.data)
         print(json_data)
         self.assertEqual(200, response.status_code)
@@ -273,7 +274,7 @@ class TestApp(unittest.TestCase):
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
-            json=self.red_flag)
+            json=red_flag_valid)
 
         response = self.client.delete(
             "/api/v1/red_flags/2",
@@ -367,17 +368,11 @@ class TestApp(unittest.TestCase):
             "Only red-flag in draft state can be edited")
 
     def test_35_user_create_red_flag_with_wrong_media_type(self):
-        red_flag = {
-            "comment": "We are facing this challenge",
-            "_type": "red-flag",
-            "location": "Lat 1231 Long 1424",
-            "images": "pic1.jpg"
-        }
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(
                 Authorization='Bearer ' + GetToken.get_user_token()),
-            json=red_flag)
+            json=red_flag_wrong_media)
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
         self.assertEqual(json_data["error"], "images should be in list form")

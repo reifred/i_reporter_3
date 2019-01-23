@@ -91,6 +91,16 @@ def validate_password(password):
         return "password must have upper and lower character plus number"
 
 
+def validate_phoneNumber(string_key, phoneNumber):
+    if not phoneNumber or not isinstance(
+        phoneNumber, str) or phoneNumber.isspace():
+        return f"{string_key} must not be empty string"
+    try:
+        int(phoneNumber)
+    except:
+        return f"{string_key} must be a number"
+
+
 def validate_user_input(
         firstname, lastname, email, phoneNumber, username, password):
     """ Validate user data for sign up """
@@ -98,7 +108,7 @@ def validate_user_input(
     error["firstname"] = validate_string("firstname", firstname)
     error["lastname"] = validate_string("lastname", lastname)
     error["email"] = validate_email(email)
-    error["phoneNumber"] = validate_string("phoneNumber", phoneNumber)
+    error["phoneNumber"] = validate_phoneNumber("phoneNumber", phoneNumber)
     error["username"] = validate_string("username", username)
     error["password"] = validate_password(password)
     error_list = [value for key, value in error.items() if value]

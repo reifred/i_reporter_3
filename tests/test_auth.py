@@ -1,4 +1,5 @@
 from app import app
+from tests.data_test import user_invalid_phone
 import unittest
 import json
 
@@ -37,6 +38,16 @@ class TestApp(unittest.TestCase):
         self.assertEqual(
             json_data["error"],
             "username should not be empty string"
+        )
+
+    def test_05_sign_up_with_invalid_phone(self):
+        response = self.client.post(
+            "/api/v1/auth/sign_up", json=user_invalid_phone)
+        json_data = json.loads(response.data)
+        self.assertEqual(400, response.status_code)
+        self.assertEqual(
+            json_data["error"],
+            "phoneNumber must be a number"
         )
 
     def test_05_sign_up_with_short_password(self):
