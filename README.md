@@ -17,7 +17,7 @@ Install the following programs before using the API:
 ## Instructions for set up
 - Clone into this repo using:
 ```
-git clone https://github.com/reifred/ireporter_api.git
+git clone https://github.com/reifred/i_reporter_3.git
 ```
 ### Set up a virtual environment for python in the project directory
 Inorder to set up the virtual environment, you need to install the python package called virtualenv using pip.
