@@ -2,6 +2,7 @@ from app.helpers.database import Database
 
 db = Database()
 
+
 class User:
 
     def __init__(self, **kwargs):
