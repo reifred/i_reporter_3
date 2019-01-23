@@ -1,9 +1,12 @@
-from app.helpers.database import Database
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from datetime import datetime
 from app.models.incident import Incident
 
-from app.helpers.validators import validate_input
+from app.helpers.validators import (
+    validate_input,
+    valid_url_input,
+    set_incident_type
+)
 
 from app.helpers.authetication import (
     token_required,
@@ -24,8 +27,7 @@ response = None
 @json_data_required
 def create_red_flag_record_of_given_user(incident_type):
     """Create an incident record of a given user"""
-
-    if incident_type not in ["red_flags", "interventions"]:
+    if not valid_url_input(incident_type):
         return jsonify({
             "status": 404,
             "error": "Page Not found. Enter a valid URL"
@@ -35,13 +37,7 @@ def create_red_flag_record_of_given_user(incident_type):
     incident["status"] = "draft"
     incident["createdOn"] = datetime.now().strftime("%Y-%m-%d")
     incident["createdBy"] = get_current_identity()
-
-    if incident_type == "red_flags":
-        incident["_type"] = "red-flag"
-        message = "red_flag"
-    elif incident_type == "interventions":
-        message = "intervention"
-        incident["_type"] = "intervention"
+    incident["_type"] = set_incident_type(incident_type)
 
     location = incident.get("location")
     comment = incident.get("comment")
@@ -49,7 +45,7 @@ def create_red_flag_record_of_given_user(incident_type):
     images = incident.get("images") if "images" in incident else []
     videos = incident.get("videos") if "videos" in incident else []
     errors = validate_input(
-        location, comment, _type, images, videos)
+        location, comment, images, videos)
 
     incident_exists = Incident.incident_exists(comment, location)
 
@@ -67,7 +63,7 @@ def create_red_flag_record_of_given_user(incident_type):
         response = jsonify({
             "status": 201,
             "data": [{
-                "message": f"Created {message} record",
+                "message": f"Created {_type} record",
                 "id": incident_id
             }]
         }), 201
