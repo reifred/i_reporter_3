@@ -91,8 +91,6 @@ class Database:
                 get_current_identity()} AND _type='{_type}'"""
         self.cursor.execute(query)
         incidents = self.cursor.fetchall()
-        print("Current id", get_current_identity())
-        print("Incidents", incidents)
         return incidents
 
     def get_all_users(self):
@@ -101,44 +99,55 @@ class Database:
         users = self.cursor.fetchall()
         return users
 
-    def is_red_flag_editable(self, red_flag_id):
-        red_flag_of_id = self.get_red_flag_of_id(red_flag_id)
-        if red_flag_of_id[0]["status"] == "draft":
-            return red_flag_of_id
+    def is_record_editable(self, incident_id, _type):
+        incident_of_id = self.get_red_flag_of_id(incident_id, _type)
+        if incident_of_id[0]["status"] == "draft":
+            return incident_of_id
 
-    def get_red_flag_of_id(self, red_flag_id):
-        query = f"""SELECT * FROM incident_table4 WHERE id={red_flag_id}"""
+    def get_red_flag_of_id(self, incident_id, _type):
+        query = f"""SELECT * FROM incident_table4 WHERE
+        id={incident_id} AND _type='{_type}'"""
 
         if not get_current_role():
-            query = f"""SELECT * FROM incident_table4 WHERE id={red_flag_id}
-            AND createdBy={get_current_identity()}"""
+            query = f"""SELECT * FROM incident_table4
+            WHERE id={incident_id}
+            AND createdBy={get_current_identity()}
+            AND _type='{_type}'"""
 
         self.cursor.execute(query)
         red_flag_of_id = self.cursor.fetchall()
         return red_flag_of_id
 
-    def admin_update_status(self, incident_id, attribute, value):
-        query = f"""UPDATE incident_table4 SET {
-            attribute}='{value}' WHERE id={incident_id}"""
+    def admin_update_status(self, attribute, value, incident_id, _type):
+        query = f"""UPDATE incident_table4
+        SET {attribute}='{value}'
+        WHERE id={incident_id}
+        AND _type='{_type}'"""
         self.cursor.execute(query)
 
-    def update_user_incident(self, incident_id, attribute, value):
-        query = f"""UPDATE incident_table4 SET {
-            attribute}='{value}' WHERE id={incident_id}
-            AND createdBy={get_current_identity()}"""
+    def update_user_incident(self, attribute, value, incident_id, _type):
+        query = f"""UPDATE incident_table4
+        SET {attribute}='{value}'
+        WHERE id={incident_id}
+        AND createdBy={get_current_identity()}
+        AND _type='{_type}'"""
         self.cursor.execute(query)
 
-    def delete_user_incident(self, incident_id):
-        query = f"""DELETE FROM incident_table4 WHERE id={incident_id}
+    def delete_user_incident(self, incident_id, incident_type):
+        query = f"""DELETE FROM incident_table4 
+        WHERE id={incident_id}
+        AND createdBy={get_current_identity()} 
+        AND _type='{incident_type}'"""
+        self.cursor.execute(query)
+
+    def incident_exists(self, comment, location):
+        query = f"""SELECT * FROM incident_table4 
+        WHERE comment='{comment}' 
+        AND location='{location}'
         AND createdBy={get_current_identity()}"""
         self.cursor.execute(query)
-
-    def red_flag_exists(self, comment, location):
-        query = f"""SELECT * FROM incident_table4 WHERE comment='{comment}'
-        AND location='{location}' AND createdBy={get_current_identity()}"""
-        self.cursor.execute(query)
-        redflag = self.cursor.fetchall()
-        return redflag
+        incident = self.cursor.fetchall()
+        return incident
 
     def username_or_email_exists(self, username, email):
         query = f"""SELECT * FROM user_table4 WHERE username='{username}'
