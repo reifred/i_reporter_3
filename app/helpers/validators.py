@@ -35,7 +35,7 @@ def validate_string(string_key, string_value):
 
 def validate_media(media_key, media_value):
     """ Validate incident media """
-    if not isinstance(media_value, list):
+    if media_value and not isinstance(media_value, list):
         return f"{media_key} should be in list form"
 
 

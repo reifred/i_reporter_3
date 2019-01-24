@@ -62,8 +62,8 @@ class Database:
             '{kwargs.get("_type")}',
             '{kwargs.get("location")}',
             '{kwargs.get("status")}',
-            ARRAY[]::text[]{kwargs.get("images")},
-            ARRAY[]::text[]{kwargs.get("videos")},
+            ARRAY{kwargs.get("images")},
+            ARRAY{kwargs.get("videos")},
             '{kwargs.get("comment")}');"""
         self.cursor.execute(insert)
 

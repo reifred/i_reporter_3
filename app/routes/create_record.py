@@ -42,8 +42,13 @@ def create_red_flag_record_of_given_user(incident_type):
     location = incident.get("location")
     comment = incident.get("comment")
     _type = incident.get("_type")
-    images = incident.get("images") if "images" in incident else []
-    videos = incident.get("videos") if "videos" in incident else []
+    images = incident.get("images")
+    videos = incident.get("images")
+    if not images:
+        incident["images"] = [""]
+    if not videos:
+        incident["videos"] = [""]
+
     errors = validate_input(
         location, comment, images, videos)
 

@@ -13,8 +13,8 @@ class Incident:
         self._type = kwargs.get("_type")
         self.location = kwargs.get("location")
         self.status = kwargs.get("status")
-        self.images = kwargs.get("images", [])
-        self.videos = kwargs.get("videos", [])
+        self.images = kwargs.get("images")
+        self.videos = kwargs.get("videos")
         self.comment = kwargs.get("comment")
 
     @staticmethod

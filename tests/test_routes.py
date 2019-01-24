@@ -360,4 +360,4 @@ class TestApp(unittest.TestCase):
             json=red_flag_wrong_media)
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
-        self.assertEqual(json_data["error"], "images should be in list form")
+        self.assertIn("error", json_data)
