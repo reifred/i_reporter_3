@@ -27,6 +27,20 @@ user_short_pass = {
     "password": "pass",
     "isAdmin": False
 }
+valid_admin = {
+    "firstname": "Kiggundu",
+    "lastname": "Gerald",
+    "othernames": "",
+    "email": "admin@gmail.com",
+    "phoneNumber": "0753736433",
+    "username": "admin",
+    "password": "Admin123",
+    "isAdmin": True
+}
+sign_in_admin = {
+    "username": "admin",
+    "password": "Admin123",
+}
 valid_user = {
     "firstname": "Mugerwa",
     "lastname": "Fred",
@@ -35,6 +49,16 @@ valid_user = {
     "phoneNumber": "0757605424",
     "username": "username",
     "password": "Password123",
+    "isAdmin": False
+}
+valid_user2 = {
+    "firstname": "Mugerwa",
+    "lastname": "Fred",
+    "othernames": "",
+    "email": "reifred33@gmail.com",
+    "phoneNumber": "0757605424",
+    "username": "username33",
+    "password": "Password33",
     "isAdmin": False
 }
 user_invalid_email = {
@@ -71,6 +95,10 @@ valid_sign_in = {
     "username": "username",
     "password": "Password123",
     "isAdmin": False
+}
+valid_sign_in2 = {
+    "username": "username33",
+    "password": "Password33"
 }
 valid_comment = {
     "comment": "New comment"

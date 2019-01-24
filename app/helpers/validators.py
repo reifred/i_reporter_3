@@ -57,7 +57,7 @@ def validate_input(location, comment, images, videos):
     error["videos"] = validate_media("videos", videos)
     error_list = [value for key, value in error.items() if value]
     first_error = "".join(error_list[0]) if error_list else None
-    return first_error
+    return first_error if len(error_list) == 1 else error_list
 
 
 def validate_status(status):
@@ -92,28 +92,37 @@ def validate_password(password):
 
 
 def validate_phoneNumber(string_key, phoneNumber):
+    """ Validate phone number """
     if not phoneNumber or not isinstance(
         phoneNumber, str) or phoneNumber.isspace():
         return f"{string_key} must not be empty string"
-    try:
-        int(phoneNumber)
-    except:
-        return f"{string_key} must be a number"
+    if len(phoneNumber) not in range(10,15):
+        return f"{string_key} length must be 10 to 15 numbers"
+    if not phoneNumber.isdigit():
+        return f"{string_key} must have digits in a string"
+
+
+def validate_name(string_key, name):
+    if not name or not isinstance(
+            name, str) or name.isspace():
+        return f"{string_key} should not be empty string"
+    if not name.isalpha():
+        return f"{string_key} should contain only characters"
 
 
 def validate_user_input(
         firstname, lastname, email, phoneNumber, username, password):
     """ Validate user data for sign up """
     error = {}
-    error["firstname"] = validate_string("firstname", firstname)
-    error["lastname"] = validate_string("lastname", lastname)
+    error["firstname"] = validate_name("firstname", firstname)
+    error["lastname"] = validate_name("lastname", lastname)
     error["email"] = validate_email(email)
     error["phoneNumber"] = validate_phoneNumber("phoneNumber", phoneNumber)
     error["username"] = validate_string("username", username)
     error["password"] = validate_password(password)
     error_list = [value for key, value in error.items() if value]
     first_error = "".join(error_list[0]) if error_list else None
-    return first_error
+    return first_error if len(error_list) == 1 else error_list
 
 
 def validate_sign_in(username, password):
@@ -123,4 +132,4 @@ def validate_sign_in(username, password):
     error["password"] = validate_password(password)
     error_list = [value for key, value in error.items() if value]
     first_error = "".join(error_list[0]) if error_list else None
-    return first_error
+    return first_error if len(error_list) == 1 else error_list
