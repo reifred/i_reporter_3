@@ -24,7 +24,6 @@ def sign_up():
     """Function to register a new user"""
     user = request.get_json()
     user["registered"] = datetime.now().strftime("%Y-%m-%d")
-    # user["isAdmin"] = False
 
     firstname = user.get("firstname")
     lastname = user.get("lastname")
@@ -71,21 +70,10 @@ def sign_in():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
-    isAdmin = data.get("isAdmin")
 
     errors = validate_sign_in(username, password)
 
-    if username == "admin" and password == "admin@33" and isAdmin:
-        token = encode_token(1, isAdmin)
-        response = jsonify({
-            "status": 200,
-            "data": [{
-                "token": token,
-                "message": "Admin login",
-                "username": "admin"
-            }]
-        }), 200
-    elif errors:
+    if errors:
         response = jsonify({"status": 400, "error": errors}), 400
     else:
         username_exists = User.user_exists(username)
@@ -102,7 +90,6 @@ def sign_in():
         else:
             user_id = username_exists[0]["id"]
             user_adm  = username_exists[0]["isadmin"]
-            print(username_exists)
             token = encode_token(user_id, user_adm)
             response = jsonify({
                 "status": 200,
