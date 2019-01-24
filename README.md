@@ -125,9 +125,9 @@ User Log In.
 Creating a red_flag
 {
 	"comment": "New comment about corruption",
-	"images": "image.jpg",
+	"images": "[],
 	"location": "Lat 11231 Long 14224",
-	"videos": [vid.mp4]
+	"videos": []
 }
 
 ``` 
