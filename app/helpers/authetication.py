@@ -6,6 +6,7 @@ import datetime
 
 SECRET_KEY = environ.get("SECRET_KEY")
 
+
 def encode_token(user_id, isAdmin=False):
     """ Write this later """
     payload = {

@@ -5,6 +5,7 @@ db = Database()
 
 class Incident:
     """ Model for the Incident Record """
+
     def __init__(self, **kwargs):
         """ Initializing the Incident Model """
         self.createdBy = kwargs.get("createdBy")

@@ -94,9 +94,9 @@ def validate_password(password):
 def validate_phoneNumber(string_key, phoneNumber):
     """ Validate phone number """
     if not phoneNumber or not isinstance(
-        phoneNumber, str) or phoneNumber.isspace():
+            phoneNumber, str) or phoneNumber.isspace():
         return f"{string_key} must not be empty string"
-    if len(phoneNumber) not in range(10,15):
+    if len(phoneNumber) not in range(10, 15):
         return f"{string_key} length must be 10 to 15 numbers"
     if not phoneNumber.isdigit():
         return f"{string_key} must have digits in a string"

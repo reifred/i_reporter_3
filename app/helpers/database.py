@@ -7,7 +7,11 @@ from app.helpers.authetication import get_current_role, get_current_identity
 class Database:
     def __init__(self):
         try:
-            self.connection = psycopg2.connect(environ.get('URI'))
+            if not environ.get('URI'):
+                self.connection = psycopg2.connect(
+                    "postgres://postgres:incorrect6363@localhost/test_db")
+            else:
+                self.connection = psycopg2.connect(environ.get('URI'))
             self.connection.autocommit = True
             self.cursor = self.connection.cursor(
                 cursor_factory=RealDictCursor

@@ -15,7 +15,9 @@ class TestApp(unittest.TestCase):
         cls.db = Database()
 
     def setUp(self):
+        app.config["Testing"] = True
         self.client = app.test_client(self)
+
 
     @classmethod
     def tearDownClass(cls):

@@ -5,6 +5,7 @@ from app.models.user import User
 
 get_users = Blueprint("get_users", __name__, url_prefix="/api/v1")
 
+
 @get_users.route("/users", methods=["GET"])
 @token_required
 @admin_required

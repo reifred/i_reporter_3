@@ -89,7 +89,7 @@ def sign_in():
             }), 400
         else:
             user_id = username_exists[0]["id"]
-            user_adm  = username_exists[0]["isadmin"]
+            user_adm = username_exists[0]["isadmin"]
             token = encode_token(user_id, user_adm)
             response = jsonify({
                 "status": 200,
