@@ -1,12 +1,9 @@
 from app import app
 from tests.data_test import (
     user_short_pass,
-    valid_user,
-    user_invalid_phone,
-    user_invalid_email,
-    user_name_not_string,
-    sign_wrong_password,
-    sign_wrong_username,
+    valid_user, user_invalid_phone,
+    user_invalid_email, user_name_not_string,
+    sign_wrong_password, sign_wrong_username,
     valid_sign_in
 )
 import unittest

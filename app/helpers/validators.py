@@ -35,8 +35,8 @@ def validate_string(string_key, string_value):
 
 def validate_media(media_key, media_value):
     """ Validate incident media """
-    if media_value and not isinstance(media_value, list):
-        return f"{media_key} should be in list form"
+    if not media_value or not isinstance(media_value, list):
+        return f"{media_key} should not be empty list"
 
 
 def validate_comment(comment):
@@ -99,7 +99,7 @@ def validate_phoneNumber(string_key, phoneNumber):
     if len(phoneNumber) not in range(10, 15):
         return f"{string_key} length must be 10 to 15 numbers"
     if not phoneNumber.isdigit():
-        return f"{string_key} must have digits in a string"
+        return f"{string_key} must have only digits in a string"
 
 
 def validate_name(string_key, name):

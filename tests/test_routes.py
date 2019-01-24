@@ -361,3 +361,38 @@ class TestApp(unittest.TestCase):
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
         self.assertIn("error", json_data)
+
+    def test_36_get_records_with_wrong_url(self):
+        response = self.client.get(
+            "/api/v1/intervent",
+            headers=dict(
+                Authorization='Bearer ' + GetToken.get_user_token()))
+        json_data = json.loads(response.data)
+        self.assertEqual(404, response.status_code)
+        self.assertIn("error", json_data)
+
+    def test_36_delete_record_with_wrong_url(self):
+        response = self.client.delete(
+            "/api/v1/intervent/1",
+            headers=dict(
+                Authorization='Bearer ' + GetToken.get_user_token()))
+        json_data = json.loads(response.data)
+        self.assertEqual(404, response.status_code)
+        self.assertIn("error", json_data)
+
+    def test_36_get_record_with_wrong_url(self):
+        response = self.client.get(
+            "/api/v1/intervent/1",
+            headers=dict(
+                Authorization='Bearer ' + GetToken.get_user_token()))
+        json_data = json.loads(response.data)
+        self.assertEqual(404, response.status_code)
+        self.assertIn("error", json_data)
+
+    def test_36_edit_status_with_wrong_url(self):
+        response = self.client.patch(
+            "/api/v1/internt/1/status",
+            headers=dict(
+                Authorization='Bearer ' + GetToken.get_admin_token()))
+        json_data = json.loads(response.data)
+        self.assertIn("error", json_data)
