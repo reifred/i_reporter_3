@@ -32,6 +32,23 @@ After setting up and activating your virtual environment, you need to install al
 ```
 pip install -r requirements.txt
 ```
+
+### Setting Up environment variables
+For windows using command prompt
+```
+Database
+set URI='postgres://db_user_name:db_password@db_host/database_name'
+Secret Key
+set SECRET_KEY="your_secret_key"
+```
+For Linux using bash
+```
+Database
+export URI='postgres://db_user_name:db_password@db_host/database_name'
+Secret Key
+export SECRET_KEY="your_secret_key"
+```
+
 ### Running the tests
 
 Use the following command to run the tests in your virtual environment:
@@ -45,21 +62,45 @@ Use the following command in the project folder to run the app:
 ```
 python run.py
 ```
+## Authentication API ENDPOINTS
 
-### End points
+|HTTP method|End point|Functionality| 
+|-----------|---------|--------------|
+|POST|/api/v1/auth/sign_up|Register a new user|
+|POST|/api/v1/auth/sign_in|Login a user or admin|
+
+
+## Red flag API ENDPOINTS
+
+|HTTP method|End point|Functionality| 
+|-----------|---------|--------------|
+|POST|/api/v1/red_flags|Create a red-flag record|
+|GET|/api/v1/red_flags|Return all red-flags available|
+|GET|/api/v1/red_flags/int:red_flag_id|Get a specific red-flag record|
+|DELETE|/api/v1/red_flags/int:red_flag_id|Delete specific red-flag record|
+|PATCH|/api/v1/red_flags/int:red_flag_id/location|Update location of specific red-flag record| 
+|PATCH|/api/v1/red_flags/int:red_flag_id/comment|Update comment of specific red-flag record|
+|PATCH|/api/v1/red_flags/int:red_flag_id/status|Admin status of specific red-flag record|
+
+
+## Intervention API ENDPOINTS
+
+|HTTP method|End point|Functionality| 
+|-----------|---------|--------------|
+|POST| /api/v1/interventions |Create an intervention record|
+|GET| /api/v1/interventions|Get all interventions available|
+|GET| /api/v1/interventions/<int:intervention_id> |Get specific intervention record|
+|DELETE| /api/v1/interventions/<int:intervention_id>|Delete a specific intervention record|
+|PATCH| /api/v1/interventions/<int:intervention_id>/location |Update location of an intervention record|
+|PATCH| /api/v1/interventions/<int:intervention_id>/comment |Update comment of an intervention record|
+|PATCH| /api/v1/interventions/<int:intervention_id>/status |Admin Update status of an intervention record|
+
+
+### Other API ENDPOINTS
  |HTTP method|End point|Functionality| 
  |-----------|---------|--------------|
  |GET|/api/v1/|A welcome route to the application|
  |GET|/api/v1/users|Return all registered users|
- |GET|/api/v1/red_flags|Return all red-flags available|
- |GET|/api/v1/red_flags/int:red_flag_id|Get a specific red-flag record|
- |POST|/api/v1/red_flags|Create a red-flag record|
- |POST|/api/v1/auth/sign_up|Register a new user|
- |POST|/api/v1/auth/sign_in|Login a user or admin|
- |PATCH|/api/v1/red_flags/int:red_flag_id/location|Edit location of specific red-flag record| 
- |PATCH|/api/v1/red_flags/int:red_flag_id/comment|Edit comment of specific red-flag record|
- |PATCH|/api/v1/red_flags/int:red_flag_id/status|Edit status of specific red-flag record|
- |DELETE|/api/v1/red_flags/int:red_flag_id|Delete specific red-flag record|
  
  #### Sample Data to use in postman
 ```
@@ -71,14 +112,14 @@ Registering a user.
 	"email": "rei@gmail.com",
 	"phoneNumber": "0757605424",
 	"username": "username",
-	"password": "Password123"
+	"password": "Password123",
+	"isAdmin": false
 }
 
 User Log In.
 {
 	"username": "username",
-	"password": "Password123",
-	"isAdmin": false
+	"password": "Password123"
 }
 
 Creating a red_flag
@@ -86,7 +127,7 @@ Creating a red_flag
 	"comment": "New comment about corruption",
 	"images": "image.jpg",
 	"location": "Lat 11231 Long 14224",
-	"videos": "vid.mp4"
+	"videos": [vid.mp4]
 }
 
 ``` 
