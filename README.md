@@ -128,9 +128,9 @@ User Log In.
 Creating a red_flag
 {
 	"comment": "New comment about corruption",
-	"images": "[],
+	"images": ["image1","image2"],
 	"location": "Lat 11231 Long 14224",
-	"videos": []
+	"videos": ["vid1","vid2"]
 }
 
 ``` 
@@ -178,6 +178,7 @@ Creating a red_flag
 
 ## Deployment
 - The link to ***Heroku*** where the api is deployed [here](https://fred-reporter.herokuapp.com/).
+- The link to PostMan Api Documentation[here]()
 - To access other routes append the api end points stated above to the home route.
 
   ### Authors
