@@ -125,9 +125,9 @@ User Log In.
 Creating a red_flag
 {
 	"comment": "New comment about corruption",
-	"images": "[],
+	"images": ["image1","image2"],
 	"location": "Lat 11231 Long 14224",
-	"videos": []
+	"videos": ["vid1","vid2"]
 }
 
 ``` 
@@ -139,11 +139,22 @@ Creating a red_flag
         {
             "id": 1,
             "message": "User login",
-            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImFkbSI6MCwiZXhwIjoxNTQ3Njg2NDQ3fQ.L1aiR6FHeG5vCvsuBFqpZlX4mYaXA845mEL_kvzQ7MY",
-            "username": "username"
+            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImFkbSI6ZmFsc2UsImV4cCI6MTU0ODM1NzMwM30.mAf2rV1a0pA7zaSxnpdnzLz7j9cIxqaT28jbJx5LQrU",
+            "user": {
+                "email": "rei@gmail.com",
+                "firstname": "Mugerwa",
+                "id": 1,
+                "isadmin": false,
+                "lastname": "Fred",
+                "othernames": "",
+                "password": "sha256$gzLCrEW5$03b8eaf3b101819974be85c9833161f47f1de734779fddb644b2fc626fe6dbce",
+                "phonenumber": "0757605424",
+                "registered": "Thu, 24 Jan 2019 00:00:00 GMT",
+                "username": "username123"
+            }
         }
     ],
-    "status": 201
+    "status": 200
 }
 ```
 #### Adding Token to headers using Postman
