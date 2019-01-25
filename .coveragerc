@@ -1,0 +1,6 @@
+[report]
+omit = 
+    *\__init__.py
+    *.pyc
+    */site-packages/*
+    */tests/*

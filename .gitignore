@@ -1,0 +1,11 @@
+.vscode
+venv
+.coverage
+.pytest_cache
+app/helpers/__pycache__/
+app/models/__pycache__/
+app/routes/__pycache__/
+app/__pycache__/
+tests/__pycache__/
+htmlcov
+.env

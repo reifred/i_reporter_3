@@ -1,0 +1,19 @@
+language: python
+
+python: 
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database fred;" -U postgres
+
+script:
+  - python -m pytest --cov
+  
+after_success:
+  - coveralls
