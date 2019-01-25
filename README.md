@@ -178,7 +178,6 @@ Creating a red_flag
 
 ## Deployment
 - The link to ***Heroku*** where the api is deployed [here](https://fred-reporter.herokuapp.com/).
-- The link to PostMan Api Documentation[here]()
 - To access other routes append the api end points stated above to the home route.
 
   ### Authors
