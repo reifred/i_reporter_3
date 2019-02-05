@@ -299,6 +299,13 @@ class TestApp(unittest.TestCase):
                 Authorization='Bearer ' + GetToken.get_admin_token()))
         self.assertEqual(200, response.status_code)
 
+    def test_28_admin_get_user_of_id(self):
+        response = self.client.get(
+            "/api/v1/users/1",
+            headers=dict(
+                Authorization='Bearer ' + GetToken.get_admin_token()))
+        self.assertEqual(200, response.status_code)
+
     def test_29_user_get_all_registered_users(self):
         response = self.client.get(
             "/api/v1/users",
