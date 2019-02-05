@@ -8,6 +8,7 @@ class Incident:
 
     def __init__(self, **kwargs):
         """ Initializing the Incident Model """
+        self.title = kwargs.get("title")
         self.createdBy = kwargs.get("createdBy")
         self.createdOn = kwargs.get("createdOn")
         self._type = kwargs.get("_type")
@@ -55,7 +56,7 @@ class Incident:
         return db.delete_user_incident(incident_id, incident_type)
 
     def convert_to_dict(self):
-        return dict(createdBy=self.createdBy,
+        return dict(title=self.title, createdBy=self.createdBy,
                     createdOn=self.createdOn, _type=self._type,
                     location=self.location, status=self.status,
                     images=self.images, videos=self.videos,

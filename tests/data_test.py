@@ -1,10 +1,12 @@
 red_flag_valid = {
+    "title": "Title 1",
     "comment": "We are facing this challenge",
     "location": "Lat 1231 Long 1424",
     "images": ["picurl1","picurl1"],
     "videos": ["vidurl1","vidurl2"]
 }
 red_flag_wrong_media = {
+    "title": "Title 2",
     "comment": "We are facing this challenge",
     "location": "Lat 1231 Long 1424",
     "videos": ["vidurl"],

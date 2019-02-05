@@ -30,6 +30,10 @@ class User:
             return db.username_exists(username)
         return db.username_or_email_exists(username, email)
 
+    @staticmethod
+    def get_single_user(user_id):
+        return db.get_user_of_id(user_id)
+
     def convert_to_dict(self):
         return dict(firstname=self.firstname,
                     lastname=self.lastname, othernames=self.othernames,

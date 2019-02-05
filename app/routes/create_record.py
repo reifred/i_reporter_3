@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from datetime import datetime
 from app.models.incident import Incident
 
@@ -39,6 +39,7 @@ def create_red_flag_record_of_given_user(incident_type):
     incident["createdBy"] = get_current_identity()
     incident["_type"] = set_incident_type(incident_type)
 
+    title = incident.get("title")
     location = incident.get("location")
     comment = incident.get("comment")
     _type = incident.get("_type")
@@ -46,7 +47,7 @@ def create_red_flag_record_of_given_user(incident_type):
     videos = incident.get("videos")
  
     errors = validate_input(
-        location, comment, images, videos)
+        title, location, comment, images, videos)
 
     incident_exists = Incident.incident_exists(comment, location)
 
