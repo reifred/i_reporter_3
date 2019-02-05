@@ -124,6 +124,7 @@ User Log In.
 
 Creating a red_flag
 {
+	"title": "Corruption",
 	"comment": "New comment about corruption",
 	"images": ["image1","image2"],
 	"location": "Lat 11231 Long 14224",
