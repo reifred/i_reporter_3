@@ -191,7 +191,7 @@ class TestApp(unittest.TestCase):
         json_data = json.loads(response.data)
         self.assertEqual(
             json_data["error"],
-            "comment must be atleast 10 to 40 characters")
+            "comment must be atleast 10 characters")
 
     def test_19_admin_edit_user_red_flag_status(self):
         response = self.client.patch(

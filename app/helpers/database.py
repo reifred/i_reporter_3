@@ -39,7 +39,7 @@ class Database:
             """
                 CREATE TABLE IF NOT EXISTS incident_table4(
                     ID SERIAL PRIMARY KEY NOT NULL,
-                    title VARCHAR(20) NOT NULL,
+                    title VARCHAR(50) NOT NULL,
                     createdOn DATE NOT NULL,
                     createdBy INTEGER REFERENCES user_table4(ID),
                     _type VARCHAR(20) NOT NULL,
