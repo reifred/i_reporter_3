@@ -44,8 +44,8 @@ def validate_comment(comment):
     if not comment or not isinstance(
             comment, str) or comment.isspace():
         return "comment must not be empty string"
-    if len(comment) not in range(10, 40):
-        return "comment must be atleast 10 to 40 characters"
+    if len(comment) < 10:
+        return "comment must be atleast 10 characters"
 
 
 def validate_input(title, location, comment, images, videos):
