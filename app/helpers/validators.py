@@ -48,9 +48,10 @@ def validate_comment(comment):
         return "comment must be atleast 10 to 40 characters"
 
 
-def validate_input(location, comment, images, videos):
+def validate_input(title, location, comment, images, videos):
     """ Validate incident input """
     error = {}
+    error["title"] = validate_string("title", title)
     error["location"] = validate_string("location", location)
     error["comment"] = validate_comment(comment)
     error["images"] = validate_media("images", images)

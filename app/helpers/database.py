@@ -39,6 +39,7 @@ class Database:
             """
                 CREATE TABLE IF NOT EXISTS incident_table4(
                     ID SERIAL PRIMARY KEY NOT NULL,
+                    title VARCHAR(20) NOT NULL,
                     createdOn DATE NOT NULL,
                     createdBy INTEGER REFERENCES user_table4(ID),
                     _type VARCHAR(20) NOT NULL,
@@ -55,8 +56,9 @@ class Database:
 
     def add_incident(self, **kwargs):
         insert = f"""INSERT INTO incident_table4(
-            createdOn, createdBy, _type, location, status,
-            images, videos, comment) VALUES (
+            title, createdOn, createdBy, _type, location,
+            status, images, videos, comment) VALUES (
+            '{kwargs.get("title")}',
             '{kwargs.get("createdOn")}',
             {kwargs.get("createdBy")},
             '{kwargs.get("_type")}',
@@ -157,6 +159,12 @@ class Database:
 
     def username_exists(self, username):
         query = f"""SELECT * FROM user_table4 WHERE username='{username}'"""
+        self.cursor.execute(query)
+        user = self.cursor.fetchall()
+        return user
+
+    def get_user_of_id(self, user_id):
+        query = f"""SELECT * FROM user_table4 WHERE ID='{user_id}'"""
         self.cursor.execute(query)
         user = self.cursor.fetchall()
         return user
