@@ -13,6 +13,7 @@ class TestApp(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.db = Database()
+        cls.token = GetToken()
 
     def setUp(self):
         app.config["Testing"] = True
@@ -28,7 +29,7 @@ class TestApp(unittest.TestCase):
             "/api/v1/red_flags",
             headers=dict(
                 Authorization='Bearer ' +
-                GetToken.get_user_token()))
+                self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
         self.assertEqual(
@@ -44,7 +45,7 @@ class TestApp(unittest.TestCase):
     def test_03_user_create_red_flag(self):
         response = self.client.post(
             "/api/v1/red_flags",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_valid)
         json_data = json.loads(response.data)
         self.assertEqual(201, response.status_code)
@@ -54,7 +55,7 @@ class TestApp(unittest.TestCase):
     def test_04_user_recreate_red_flag(self):
         response = self.client.post(
             "/api/v1/red_flags",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_valid)
         json_data = json.loads(response.data)
         print(json_data)
@@ -66,7 +67,7 @@ class TestApp(unittest.TestCase):
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()),
+                Authorization='Bearer ' + self.token.get_admin_token()),
             json=red_flag_valid)
         json_data = json.loads(response.data)
         self.assertEqual(403, response.status_code)
@@ -78,7 +79,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/red_flags",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         json_data = json.loads(response.data)
         self.assertEqual(200, response.status_code)
         self.assertIn("data", json_data)
@@ -87,7 +88,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/red_flags",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()))
+                Authorization='Bearer ' + self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(200, response.status_code)
         self.assertEqual(200, response.status_code)
@@ -102,7 +103,7 @@ class TestApp(unittest.TestCase):
     def test_09_get_user_red_flags(self):
         response = self.client.get(
             "/api/v1/red_flags",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_valid)
         self.assertEqual(200, response.status_code)
 
@@ -115,7 +116,7 @@ class TestApp(unittest.TestCase):
     def test_11_get_user_single_red_flag(self):
         response = self.client.get(
             "/api/v1/red_flags/1",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_valid)
         json_data = json.loads(response.data)
         print(json_data)
@@ -133,7 +134,7 @@ class TestApp(unittest.TestCase):
     def test_13_edit_user_red_flag_location_with_wrong_URL(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/locat",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=valid_location)
         json_data = json.loads(response.data)
         self.assertEqual(404, response.status_code)
@@ -145,7 +146,7 @@ class TestApp(unittest.TestCase):
     def test_14_edit_user_red_flag_location(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/location",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=valid_location)
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
@@ -156,7 +157,7 @@ class TestApp(unittest.TestCase):
         response = self.client.patch(
             "/api/v1/red_flags/1/location",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()),
+                Authorization='Bearer ' + self.token.get_admin_token()),
             json=valid_location)
         json_data = json.loads(response.data)
         self.assertEqual(403, response.status_code)
@@ -167,7 +168,7 @@ class TestApp(unittest.TestCase):
     def test_16_edit_user_red_flag_location_without_data(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/location",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()))
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()))
         self.assertEqual(response.status_code, 400)
         json_data = json.loads(response.data)
         self.assertEqual(
@@ -176,7 +177,7 @@ class TestApp(unittest.TestCase):
     def test_17_edit_user_red_flag_comment_with_wrong_ID(self):
         response = self.client.patch(
             "/api/v1/red_flags/11/comment",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=valid_comment)
         self.assertEqual(response.status_code, 400)
         json_data = json.loads(response.data)
@@ -186,7 +187,7 @@ class TestApp(unittest.TestCase):
     def test_18_edit_user_red_flag_comment_with_short_comment(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/comment",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=short_comment)
         json_data = json.loads(response.data)
         self.assertEqual(
@@ -196,7 +197,7 @@ class TestApp(unittest.TestCase):
     def test_19_admin_edit_user_red_flag_status(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_admin_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_admin_token()),
             json=valid_status)
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
@@ -206,7 +207,7 @@ class TestApp(unittest.TestCase):
     def test_20_admin_edit_user_red_flag_status_with_wrong_input(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_admin_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_admin_token()),
             json=invalid_status)
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
@@ -215,7 +216,7 @@ class TestApp(unittest.TestCase):
     def test_21_admin_edit_user_red_flag_status_with_wrong_data_type(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_admin_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_admin_token()),
             json=status_wrong_data)
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
@@ -224,7 +225,7 @@ class TestApp(unittest.TestCase):
     def test_22_user_edit_user_red_flag_status(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=valid_status)
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 403)
@@ -237,7 +238,7 @@ class TestApp(unittest.TestCase):
             "/api/v1/red_flags/1",
             headers=dict(
                 Authorization='Bearer ' +
-                GetToken.get_user_token()))
+                self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
@@ -250,7 +251,7 @@ class TestApp(unittest.TestCase):
             "/api/v1/red_flags/10",
             headers=dict(
                 Authorization='Bearer ' +
-                GetToken.get_user_token()))
+                self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
@@ -261,12 +262,12 @@ class TestApp(unittest.TestCase):
     def test_25_remove_user_red_flag(self):
         response = self.client.post(
             "/api/v1/red_flags",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_valid)
 
         response = self.client.delete(
             "/api/v1/red_flags/2",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()))
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -278,7 +279,7 @@ class TestApp(unittest.TestCase):
         response = self.client.delete(
             "/api/v1/red_flags/1",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         json_data = json.loads(response.data)
         self.assertEqual(403, response.status_code)
         self.assertEqual(
@@ -296,40 +297,40 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/users",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         self.assertEqual(200, response.status_code)
 
     def test_28_admin_get_user_of_id(self):
         response = self.client.get(
             "/api/v1/users/1",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         self.assertEqual(200, response.status_code)
 
     def test_29_user_get_all_registered_users(self):
         response = self.client.get(
             "/api/v1/users",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()))
+                Authorization='Bearer ' + self.token.get_user_token()))
         self.assertEqual(403, response.status_code)
 
     def test_30_user_create_red_flag_without_data(self):
         response = self.client.post(
             "/api/v1/red_flags",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json={})
         self.assertEqual(400, response.status_code)
 
     def test_31_user_create_red_flag_with_wrong_ID(self):
         response = self.client.get(
             "/api/v1/red_flags/70",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()))
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()))
         self.assertEqual(400, response.status_code)
 
     def test_32_admin_edit_red_flag_status_without_JSON(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_admin_token()))
+            headers=dict(Authorization='Bearer ' + self.token.get_admin_token()))
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
         self.assertEqual(
@@ -338,7 +339,7 @@ class TestApp(unittest.TestCase):
     def test_32_admin_edit_red_flag_status_with_wrong_ID(self):
         response = self.client.patch(
             "/api/v1/red_flags/70/status",
-            headers=dict(Authorization='Bearer ' + GetToken.get_admin_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_admin_token()),
             json=valid_status)
         self.assertEqual(400, response.status_code)
 
@@ -346,13 +347,13 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/users/as",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         self.assertEqual(404, response.status_code)
 
     def test_34_edit_user_red_flag_comment_not_in_draft(self):
         response = self.client.patch(
             "/api/v1/red_flags/1/comment",
-            headers=dict(Authorization='Bearer ' + GetToken.get_user_token()),
+            headers=dict(Authorization='Bearer ' + self.token.get_user_token()),
             json=valid_comment)
         json_data = json.loads(response.data)
         self.assertEqual(
@@ -363,7 +364,7 @@ class TestApp(unittest.TestCase):
         response = self.client.post(
             "/api/v1/red_flags",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()),
+                Authorization='Bearer ' + self.token.get_user_token()),
             json=red_flag_wrong_media)
         json_data = json.loads(response.data)
         self.assertEqual(400, response.status_code)
@@ -373,7 +374,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/intervent",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()))
+                Authorization='Bearer ' + self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(404, response.status_code)
         self.assertIn("error", json_data)
@@ -382,7 +383,7 @@ class TestApp(unittest.TestCase):
         response = self.client.delete(
             "/api/v1/intervent/1",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()))
+                Authorization='Bearer ' + self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(404, response.status_code)
         self.assertIn("error", json_data)
@@ -391,7 +392,7 @@ class TestApp(unittest.TestCase):
         response = self.client.get(
             "/api/v1/intervent/1",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_user_token()))
+                Authorization='Bearer ' + self.token.get_user_token()))
         json_data = json.loads(response.data)
         self.assertEqual(404, response.status_code)
         self.assertIn("error", json_data)
@@ -400,6 +401,6 @@ class TestApp(unittest.TestCase):
         response = self.client.patch(
             "/api/v1/internt/1/status",
             headers=dict(
-                Authorization='Bearer ' + GetToken.get_admin_token()))
+                Authorization='Bearer ' + self.token.get_admin_token()))
         json_data = json.loads(response.data)
         self.assertIn("error", json_data)
