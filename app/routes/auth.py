@@ -92,13 +92,13 @@ def sign_in():
             user_adm = username_exists[0]["isadmin"]
             token = encode_token(user_id, user_adm)
             response = jsonify({
-                "status": 200,
+                "status": 201,
                 "data": [{
                     "id": user_id,
                     "message": "User login",
                     "user": username_exists[0],
                     "token": token
                 }]
-            }), 200
+            }), 201
 
     return response
