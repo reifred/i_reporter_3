@@ -17,7 +17,7 @@ from app.helpers.authetication import (
     json_data_required
 )
 
-MYDIR = os.path.abspath("app/static/upload")
+MYDIR = os.path.abspath("app/static")
 
 create_record = Blueprint("create_record", __name__, url_prefix="/api/v1")
 
@@ -84,4 +84,4 @@ def upload_file(picname):
             file.save(os.path.join(MYDIR, secure_filename(file.filename)))
             return "File uploaded successfully"
     elif request.method == "GET":
-        return url_for("static/upload", filename=picname)
+        return url_for("static", filename=picname)
