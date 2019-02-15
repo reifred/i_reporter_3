@@ -24,6 +24,7 @@ def sign_up():
     """Function to register a new user"""
     user = request.get_json()
     user["registered"] = datetime.now().strftime("%Y-%m-%d")
+    user["isAdmin"] = False
 
     firstname = user.get("firstname")
     lastname = user.get("lastname")

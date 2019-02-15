@@ -17,6 +17,7 @@ class Database:
                 cursor_factory=RealDictCursor
             )
             self.create_tables()
+            self.create_admin()
         except psycopg2.OperationalError as e:
             print(e, "Database Connection failed")
 
@@ -67,6 +68,16 @@ class Database:
             ARRAY{kwargs.get("images")},
             ARRAY{kwargs.get("videos")},
             '{kwargs.get("comment")}');"""
+        self.cursor.execute(insert)
+
+    def create_admin(self):
+        insert = f"""INSERT INTO user_table4(
+            firstname, lastname, othernames, email, phoneNumber, username,
+            password, registered, isAdmin) SELECT 'Mugerwa', 'Fred', 
+            'administrator', 'admin@gmail.com', '0757605424', 'admin',
+            'sha256$2xz5TAwX$4a07867464d0ca0bbc51aaabc46499fb33b0081aba9c6853d9d03dcc758e0a55',
+            NOW(), 'true' WHERE NOT EXISTS (
+            SELECT id FROM user_table4 WHERE username='admin' OR email='admin@gmail.com');"""
         self.cursor.execute(insert)
 
     def add_user(self, **kwargs):

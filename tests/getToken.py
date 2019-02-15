@@ -1,6 +1,6 @@
 from app import app
 from tests.data_test import (
-    valid_user2, valid_sign_in2, valid_admin, sign_in_admin)
+    valid_user2, valid_sign_in2, sign_in_admin)
 import json
 
 
@@ -14,7 +14,6 @@ class GetToken:
         return token
 
     def get_admin_token(self):
-        response = app.test_client().post('/api/v1/auth/sign_up', json=valid_admin)
         response = app.test_client().post('/api/v1/auth/sign_in', json=sign_in_admin)
         token = json.loads(response.data)["data"][0]['token']
         return token

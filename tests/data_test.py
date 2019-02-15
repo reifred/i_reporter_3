@@ -19,8 +19,7 @@ user_invalid_phone = {
     "email": "reifred33@gmail.com",
     "phoneNumber": "dfdfdfd",
     "username": "username33",
-    "password": "Password33",
-    "isAdmin": False
+    "password": "Password33"
 }
 user_short_pass = {
     "firstname": "Mugerwa",
@@ -29,22 +28,11 @@ user_short_pass = {
     "email": "fred@gmail.com",
     "phoneNumber": "0757605424",
     "username": "username",
-    "password": "pass",
-    "isAdmin": False
-}
-valid_admin = {
-    "firstname": "Kiggundu",
-    "lastname": "Gerald",
-    "othernames": "",
-    "email": "admin@gmail.com",
-    "phoneNumber": "0753736433",
-    "username": "admin",
-    "password": "Admin123",
-    "isAdmin": True
+    "password": "pass"
 }
 sign_in_admin = {
     "username": "admin",
-    "password": "Admin123",
+    "password": "Admin12"
 }
 valid_user = {
     "firstname": "Mugerwa",
@@ -53,8 +41,7 @@ valid_user = {
     "email": "rei33@gmail.com",
     "phoneNumber": "0757605424",
     "username": "username",
-    "password": "Password123",
-    "isAdmin": False
+    "password": "Password123"
 }
 valid_user2 = {
     "firstname": "Mugerwa",
@@ -63,8 +50,7 @@ valid_user2 = {
     "email": "reifred33@gmail.com",
     "phoneNumber": "0757605424",
     "username": "username33",
-    "password": "Password33",
-    "isAdmin": False
+    "password": "Password33"
 }
 user_invalid_email = {
     "firstname": "Mugerwa",
@@ -73,8 +59,7 @@ user_invalid_email = {
     "email": "email",
     "phoneNumber": "0757605424",
     "username": "username2",
-    "password": "password",
-    "isAdmin": False
+    "password": "password"
 }
 user_name_not_string = {
     "firstname": "Mugerwa",
@@ -83,23 +68,19 @@ user_name_not_string = {
     "email": "mugerwafred@gmail.com",
     "phoneNumber": "0757605424",
     "username": "username2",
-    "password": "password",
-    "isAdmin": False
+    "password": "password"
 }
 sign_wrong_password = {
     "username": "username",
-    "password": "Passwor12d",
-    "isAdmin": False
+    "password": "Passwor12d"
 }
 sign_wrong_username = {
     "username": "usern",
-    "password": "Password12",
-    "isAdmin": False
+    "password": "Password12"
 }
 valid_sign_in = {
     "username": "username",
-    "password": "Password123",
-    "isAdmin": False
+    "password": "Password123"
 }
 valid_sign_in2 = {
     "username": "username33",
