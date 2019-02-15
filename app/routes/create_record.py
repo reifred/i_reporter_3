@@ -1,6 +1,10 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, url_for
 from datetime import datetime
 from app.models.incident import Incident
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+import os
+
 
 from app.helpers.validators import (
     validate_input,
@@ -15,6 +19,7 @@ from app.helpers.authetication import (
     json_data_required
 )
 
+MYDIR = os.path.abspath("app/static/upload")
 
 create_record = Blueprint("create_record", __name__, url_prefix="/api/v1")
 
@@ -70,3 +75,14 @@ def create_red_flag_record_of_given_user(incident_type):
             }]
         }), 201
     return response
+
+@create_record.route("/images/<string:picname>", methods=["POST", "GET"])
+def upload_file(picname):
+    if request.method == "POST":
+        file = request.files["images"]
+
+        if file:
+            file.save(os.path.join(MYDIR, secure_filename(file.filename)))
+            return "File uploaded successfully"
+    elif request.method == "GET":
+        return send_from_directory(MYDIR, picname)
