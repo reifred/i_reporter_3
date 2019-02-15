@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
+from flask_talisman import Talisman
 from app.routes.home import home
 from app.routes.auth import auth_bp
 from app.routes.get_records import get_records
@@ -12,6 +13,7 @@ from app.routes.get_users import get_users
 
 app = Flask(__name__)
 CORS(app)
+Talisman(app)
 app.register_blueprint(home)
 app.register_blueprint(create_record)
 app.register_blueprint(get_records)
