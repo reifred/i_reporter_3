@@ -77,22 +77,18 @@ def create_red_flag_record_of_given_user(incident_type):
 
 @create_record.route("/images", methods=["POST"])
 def upload_file():
-    if request.method == "POST":
-        file = request.files["images"]
-
-        if file:
-            file.save(os.path.join(MYDIR, secure_filename(file.filename)))
-            response = jsonify({
-                "status": 201,
-                "data": "File uploaded successfully"
-            })
-    else:
-        response = jsonify({
-            "status": 400,
-            "error": "Please provide an image"
+    file = request.files["images"]
+    if file:
+        file.save(os.path.join(MYDIR, secure_filename(file.filename)))
+        return jsonify({
+            "status": 201,
+            "data": "File uploaded successfully"
         })
-    return response
+    return jsonify({
+        "status": 400,
+        "error": "Please provide an image"
+    })
 
 @create_record.route("/images/<picname>")
 def get_uploaded_image(picname):
-    return send_from_directory(MYDIR, picname), 200
+    return send_from_directory(MYDIR, picname)
