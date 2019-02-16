@@ -91,4 +91,4 @@ def upload_file():
 
 @create_record.route("/images/<picname>")
 def get_uploaded_image(picname):
-    return "Hello world"
+    return send_from_directory(MYDIR, picname)
