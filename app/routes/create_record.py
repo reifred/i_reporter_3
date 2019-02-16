@@ -83,6 +83,17 @@ def upload_file(picname):
 
         if file:
             file.save(os.path.join(MYDIR, secure_filename(file.filename)))
-            return "File uploaded successfully"
-    elif request.method == "GET":
-        return send_from_directory(MYDIR, picname)
+            response = jsonify({
+                "status": 201,
+                "data": "File uploaded successfully"
+            })
+    else:
+        response = jsonify({
+            "status": 400,
+            "error": "Please provide an image"
+        })
+    return response
+
+@create_record.route("/images/<string:picname>")
+def get_uploaded_image(picname):
+    return send_from_directory(MYDIR, picname)
