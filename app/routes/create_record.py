@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, request, url_for
+from flask import Blueprint, jsonify, request, send_from_directory
 from datetime import datetime
 from app.models.incident import Incident
 from werkzeug.utils import secure_filename
-from flask import send_from_directory
 import os
 
 
@@ -76,8 +75,8 @@ def create_red_flag_record_of_given_user(incident_type):
         }), 201
     return response
 
-@create_record.route("/images/<string:picname>", methods=["POST", "GET"])
-def upload_file(picname):
+@create_record.route("/images", methods=["POST"])
+def upload_file():
     if request.method == "POST":
         file = request.files["images"]
 
@@ -94,6 +93,6 @@ def upload_file(picname):
         })
     return response
 
-@create_record.route("/images/<string:picname>")
+@create_record.route("/images/<picname>")
 def get_uploaded_image(picname):
-    return send_from_directory(MYDIR, picname)
+    return send_from_directory(MYDIR, picname), 200
