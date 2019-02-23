@@ -23,7 +23,6 @@ def get_all_registered_users():
 
 @get_users.route("/users/<int:user_id>", methods=["GET"])
 @token_required
-@admin_required
 def get_user_of(user_id):
     """Get a user of id"""
     user = User.get_single_user(user_id)
